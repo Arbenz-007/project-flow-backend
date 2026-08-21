@@ -44,6 +44,10 @@ public class Project {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+    
+    @ManyToOne
+    @JoinColumn(name = "team_id",nullable = true)
+    private Teams team;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

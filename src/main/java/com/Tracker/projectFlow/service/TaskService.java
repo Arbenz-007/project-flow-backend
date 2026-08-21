@@ -123,6 +123,10 @@ public class TaskService {
 
         taskRepo.deleteById(id);
     }
+
+	public List<Task> getUserTask(String name) {
+		return taskRepo.findByProjectOwnerEmail(name);
+	}
 	
 	
 

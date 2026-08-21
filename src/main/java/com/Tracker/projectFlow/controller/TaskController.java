@@ -20,13 +20,13 @@ import com.Tracker.projectFlow.model.TaskStatus;
 import com.Tracker.projectFlow.service.TaskService;
 
 @RestController
-@RequestMapping("/api/project/{projectid}/task")
+@RequestMapping("/api/project/task")
 public class TaskController {
 
 	@Autowired
 	private TaskService taskService;
 	
-	@PostMapping("/create")
+	@PostMapping("/{projectid}/create")
 	public ResponseEntity<Task> createTask(@RequestBody TaskRequest request, @PathVariable Long projectid, Authentication auth ){
 		
 		String email=auth.getName();
@@ -34,13 +34,18 @@ public class TaskController {
 		return ResponseEntity.ok(taskService.createTask(request,projectid,email));
 	}
 	
-	@GetMapping("/my-tasks")
+	@GetMapping("/{projectid}/my-tasks")
 	public ResponseEntity<List<Task>> getAllTasks(@PathVariable Long projectid, Authentication auth){
 		
 		return ResponseEntity.ok(taskService.getAllTasks(projectid,auth.getName()));
 	}
 	
-	@PatchMapping("/{id}")
+	@GetMapping("/all-task")
+	public ResponseEntity<List<Task>> getUserTask(Authentication auth){
+		return ResponseEntity.ok(taskService.getUserTask(auth.getName()));
+	}
+	
+	@PatchMapping("/{projectid}/{id}")
     public ResponseEntity<Task> updateTask(
             @PathVariable Long id,
             @RequestBody TaskRequest request,
@@ -57,7 +62,7 @@ public class TaskController {
 
 
     // Update status
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/{projectid}/{id}/status")
     public ResponseEntity<Task> updateStatus(
             @PathVariable Long id,
             @RequestBody TaskStatus status,
@@ -74,7 +79,7 @@ public class TaskController {
 
 
     // Delete task
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{projectid}/{id}")
     public ResponseEntity<Void> deleteTask(
             @PathVariable Long id,
             Authentication authentication) {

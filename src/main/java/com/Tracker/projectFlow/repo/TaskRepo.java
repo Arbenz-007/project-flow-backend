@@ -11,5 +11,7 @@ public interface TaskRepo extends JpaRepository<Task, Long> {
 
 	List<Task> findByProject(Project project);
 	void deleteByProject(Project project);
+	
+	List<Task> findByProjectOwnerEmail(String email);
 
 }
